@@ -18,6 +18,8 @@ class CustomSelectorViewModel(var context: Context,var imageFileLoader: ImageFil
      */
     private val scope = CoroutineScope(Dispatchers.Main)
 
+    var selectedImages: MutableLiveData<ArrayList<Image>> = MutableLiveData()
+
     /**
      * Stores selected images.
      */

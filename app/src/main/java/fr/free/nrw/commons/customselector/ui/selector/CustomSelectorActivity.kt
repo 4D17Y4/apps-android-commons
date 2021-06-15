@@ -99,6 +99,32 @@ class CustomSelectorActivity : BaseActivity(), FolderClickListener, ImageSelectL
         // todo update selected images in view model.
     }
 
+    fun onDone() {
+        val selectedImages = viewModel.selectedImages.value
+        if(selectedImages.isNullOrEmpty()) {
+           finishPickImages(arrayListOf())
+            return
+        }
+        var i = 0
+        while (i < selectedImages.size) {
+            val path = selectedImages[i].path
+            val file = File(path)
+            if (!file.exists()) {
+                selectedImages.removeAt(i)
+                i--
+            }
+            i++
+        }
+        finishPickImages(selectedImages)
+    }
+
+    private fun finishPickImages(images: ArrayList<Image>) {
+        val data = Intent()
+        data.putParcelableArrayListExtra("Images", images)
+        setResult(Activity.RESULT_OK, data)
+        finish()
+    }
+
     /**
      * OnDone clicked.
      * Get the selected images. Remove any non existent file, forward the data to finish selector.
